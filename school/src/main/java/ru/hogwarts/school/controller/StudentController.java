@@ -41,6 +41,21 @@ public class StudentController {
         }
         return ResponseEntity.ok(editStudent);
     }
+    @GetMapping("/get-all-students-count")
+    public int getAllStudentsCount() {
+        return studentService.getAllStudentsCount();
+    }
+
+    @GetMapping("/get-average-students-age")
+    public int getAverageStudentsAge() {
+        return studentService.getAverageStudentsAge();
+    }
+
+    @GetMapping("/get-last-students")
+    public ResponseEntity<Collection<Student>> getFiveLastStudentsOrderById () {
+        Collection<Student> lastStudents = studentService.getFiveLastStudentsOrderById();
+        return ResponseEntity.ok(lastStudents);
+    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
