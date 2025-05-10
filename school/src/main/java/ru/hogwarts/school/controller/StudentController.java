@@ -24,6 +24,12 @@ public class StudentController {
         return studentService.createStudent(student);
     }
 
+    @GetMapping("/get-student-by-name/{name}")
+    public ResponseEntity<List<Student>> getStudentByName(@PathVariable("name") String name) {
+        List<Student> students = studentService.getStudentByName(name);
+        return ResponseEntity.ok(students);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<Student> getStudentInfo(@PathVariable Long id) {
         Student student = studentService.findStudent(id);
