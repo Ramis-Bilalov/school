@@ -9,6 +9,7 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
 
+    List<Student> getStudentsByName(String name);
     @Query(value = "SELECT COUNT(*) FROM student;", nativeQuery = true)
     int getAllStudentsCount();
 
