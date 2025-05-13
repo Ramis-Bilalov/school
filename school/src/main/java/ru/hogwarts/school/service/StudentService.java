@@ -26,6 +26,23 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
+    public List<String> getAllStudentsNamesStartWithA() {
+        List<String> studentNamesStartWithA = studentRepository.findAll()
+                .stream()
+                .filter(student -> student.getName().startsWith("A"))
+                .map(student -> student.getName().toUpperCase())
+                .toList();
+        return studentNamesStartWithA;
+    }
+
+    public double getAverageStudentAge() {
+        return studentRepository.findAll()
+                .stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .getAsDouble();
+    }
+
     public int getAllStudentsCount() {
         logger.info("Was invoked method for get all students count");
         return studentRepository.getAllStudentsCount();

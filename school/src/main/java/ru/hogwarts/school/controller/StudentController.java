@@ -30,6 +30,18 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/get-student-names-start-with-a")
+    public ResponseEntity<List<String>> getAllStudentsNamesStartWithA() {
+        List<String> studentNamesStartWithA = studentService.getAllStudentsNamesStartWithA();
+        return ResponseEntity.ok(studentNamesStartWithA);
+    }
+
+    @GetMapping("/get-average-age")
+    public ResponseEntity<Double> getAverageAge() {
+        double averageStudentAge = studentService.getAverageStudentAge();
+        return ResponseEntity.ok(averageStudentAge);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<Student> getStudentInfo(@PathVariable Long id) {
         Student student = studentService.findStudent(id);

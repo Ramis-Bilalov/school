@@ -8,6 +8,8 @@ import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/faculty")
@@ -22,6 +24,21 @@ public class FacultyController {
     @PostMapping
     public Faculty createFaculty(@RequestBody Faculty faculty) {
         return facultyService.createFaculty(faculty);
+    }
+
+    @GetMapping("/get-longest-faculty-name")
+    public String getLongestFacultyName() {
+        return facultyService.getLongestFacultyName();
+    }
+
+    @GetMapping("/get-sum")
+    public long getSum() {
+        long sum = LongStream
+                .iterate(1, a -> a +1)
+                .parallel()
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b );
+        return sum;
     }
 
     @GetMapping("{id}")

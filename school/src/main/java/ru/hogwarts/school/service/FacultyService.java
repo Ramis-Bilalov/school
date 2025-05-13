@@ -8,6 +8,8 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class FacultyService {
@@ -23,6 +25,17 @@ public class FacultyService {
         logger.info("Was invoked method for create faculty");
         return facultyRepository.save(faculty);
     }
+
+    public String getLongestFacultyName() {
+        String facultyName = facultyRepository.findAll()
+                .stream()
+                .map(faculty -> faculty.getName())
+                .sorted()
+                .findFirst()
+                .get();
+        return facultyName;
+    }
+
 
     public Faculty findFaculty(long id) {
         logger.info("Was invoked method for find faculty");
