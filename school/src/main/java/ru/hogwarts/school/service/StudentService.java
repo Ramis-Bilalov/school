@@ -43,6 +43,14 @@ public class StudentService {
                 .getAsDouble();
     }
 
+    public List<String> getAllStudentsNames() {
+        List<String> studentNames = studentRepository.findAll()
+                .stream()
+                .map(student -> student.getName().toUpperCase())
+                .toList();
+        return studentNames;
+    }
+
     public int getAllStudentsCount() {
         logger.info("Was invoked method for get all students count");
         return studentRepository.getAllStudentsCount();

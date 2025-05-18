@@ -6,6 +6,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import java.util.List;
 public class StudentController {
 
     private final StudentService studentService;
+
+    public Object flag = new Object();
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -34,6 +37,73 @@ public class StudentController {
     public ResponseEntity<List<String>> getAllStudentsNamesStartWithA() {
         List<String> studentNamesStartWithA = studentService.getAllStudentsNamesStartWithA();
         return ResponseEntity.ok(studentNamesStartWithA);
+    }
+
+    @GetMapping("/print-parallel")
+    public void getAllStudentsNamesParallel() {
+        String studentName0 = getStudentName(0);
+        System.out.println(studentName0);
+
+        String studentName1 = getStudentName(1);
+        System.out.println(studentName1);
+
+        new Thread(() -> {
+            String studentName2 = getStudentName(2);
+            System.out.println(studentName2);
+
+            String studentName3 = getStudentName(3);
+            System.out.println(studentName3);
+        }).start();
+
+        new Thread(() -> {
+            String studentName4 = getStudentName(4);
+            System.out.println(studentName4);
+
+            String studentName5 = getStudentName(5);
+            System.out.println(studentName5);
+        }).start();
+
+    }
+
+    private String getStudentName(int number) {
+        List<String> studentsNames = studentService.getAllStudentsNames();
+        return studentsNames.get(number);
+    }
+
+    @GetMapping("/print-synchronized")
+    public void getAllStudentsNamesSync() {
+
+        String studentName0 = getStudentName(0);
+        System.out.println(studentName0);
+
+        String studentName1 = getStudentName(1);
+        System.out.println(studentName1);
+
+        new Thread(() -> {
+            String studentName2 = getStudentName(2);
+            System.out.println(studentName2);
+
+            String studentName3 = getStudentName(3);
+            System.out.println(studentName3);
+        }).start();
+
+        new Thread(() -> {
+            String studentName4 = getStudentName(4);
+            System.out.println(studentName4);
+
+            String studentName5 = getStudentName(5);
+            System.out.println(studentName5);
+        }).start();
+    }
+
+    private String getStudentNameSync(int number) {
+        List<String> studentsNames = studentService.getAllStudentsNames();
+        String s;
+        synchronized (flag){
+            s = studentsNames.get(number);
+        }
+
+        return s;
     }
 
     @GetMapping("/get-average-age")
